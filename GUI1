@@ -1,0 +1,60 @@
+import sys
+import subprocess
+from PyQt5 import QtCore
+from PyQt5.QtWidgets import QApplication, QMainWindow, QPushButton, QLabel, QVBoxLayout, QWidget
+from PyQt5.QtGui import QPixmap
+from PyQt5.QtCore import pyqtSignal, pyqtSlot
+class MainWindow(QMainWindow):
+    
+    switch_window=pyqtSignal(str)
+    def __init__(self):
+        super().__init__()
+        self.initUI()
+
+    def initUI(self):
+        self.setWindowTitle('Image Processing GUI')
+        self.setGeometry(100, 100, 1600, 1200)
+        
+        layout = QVBoxLayout()
+        self.startButton = QPushButton("Start", self)
+        self.startButton.clicked.connect(self.onStartButtonClick)
+
+
+        self.endButton = QPushButton("End", self)
+        self.endButton.clicked.connect(self.onEndButtonClick)
+        self.endButton.setGeometry(QtCore.QRect(262, 284, 500, 200))
+        
+        self.imageLabel = QLabel(self)
+        layout.addWidget(self.startButton)
+        layout.addWidget(self.endButton)
+        layout.addWidget(self.imageLabel)
+        
+        centralWidget = QWidget()
+        centralWidget.setLayout(layout)
+        self.setCentralWidget(centralWidget)
+
+    def onStartButtonClick(self):
+        
+        #subprocess.Popen(["python", "final_work2.py"])  
+        subprocess.Popen(["python", "hello world.py"])
+        
+        self.displayInitialPicture()
+    
+    def onEndButtonClick(self):
+
+        subprocess.Popen.terminate()
+
+    # GUI takes picture, sends to image processing and obstacle detection 
+
+    def displayInitialPicture(self):
+        
+        pixmap = QPixmap('hard maze.jpeg')
+        
+        
+       # self.imageLabel.setPixmap(pixmap.scaled(800, 600, aspectRatioMode= Qt.KeepAspectRatio))
+
+if __name__ == "__main__":
+    app = QApplication(sys.argv)
+    mainWindow = MainWindow()
+    mainWindow.show()
+    sys.exit(app.exec_())
